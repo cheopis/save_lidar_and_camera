@@ -68,17 +68,17 @@ int main(){
         if( c == 115 and !recording)    // Press  s on keyboard to start recording
         {
             char path0[100];
-            sprintf(path0, "%d.avi", videono);
+            sprintf(path0, "video%d.avi", videono);
             videono += 1;
             video0.open(path0, cv::VideoWriter::fourcc('M','J','P','G'), 10, Size(frame_width,frame_height));
             
             char path1[100];
-            sprintf(path1, "%d.avi", videono);
+            sprintf(path1, "video%d.avi", videono);
             videono += 1;
             video1.open(path1, cv::VideoWriter::fourcc('M','J','P','G'), 10, Size(frame_width,frame_height));
             
             char path2[100];
-            sprintf(path2, "%d.avi", videono);
+            sprintf(path2, "video%d.avi", videono);
             videono += 1;
             video2.open(path2, cv::VideoWriter::fourcc('M','J','P','G'), 10, Size(frame_width,frame_height));
             
