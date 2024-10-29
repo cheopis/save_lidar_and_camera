@@ -57,10 +57,18 @@ class SimpleHDLViewer
         grabber_.start ();
 
         // CAMERA
-        VideoCapture cap0(6); 
+        VideoCapture cap0(3);
+        VideoCapture cap1(6); 
+        VideoCapture cap2(9); 
 
         if(!cap0.isOpened()) {
             std::cout << "cap0 doesn't work" << std::endl;
+        }
+        if(!cap1.isOpened()) {
+            std::cout << "cap1 doesn't work" << std::endl;
+        }
+        if(!cap2.isOpened()) {
+            std::cout << "cap2 doesn't work" << std::endl;
         }
 
         // Default resolutions of the frame are obtained.
@@ -70,21 +78,65 @@ class SimpleHDLViewer
         bool recording = false;
         int videono = 1;
 
-        VideoWriter video;
-
+        VideoWriter video0;
+        VideoWriter video1;
+        VideoWriter video2;
+        
         while (!cloud_viewer_->wasStopped ())
         {
             CloudConstPtr cloud;
             Mat frame0;
+            Mat frame1;
+            Mat frame2;
 
             cap0 >> frame0;
+            cap1 >> frame1;
+            cap2 >> frame2;
 
             if (frame0.empty())
                 break;
+            if (frame1.empty())
+                break;
+            if (frame2.empty())
+                break;
             
-            imshow( "Frame 0", frame0 );
+            // DESCOMENTAR CASO QUEIRA VISUALIZAR IMAGENS
+            // imshow( "Frame 0", frame0 );
+            // imshow( "Frame 1", frame0 );
+            // imshow( "Frame 2", frame0 );
 
-            imwrite("test.jpg", frame0);
+            // SALVAR EM IMAGENS
+            imwrite("test01.jpg", frame0);
+            imwrite("test02.jpg", frame0);
+            imwrite("test03.jpg", frame0);
+
+            // SALVAR EM VIDEO
+            if(!recording)
+            {
+                char path0[100];
+                sprintf(path0, "%d.avi", videono);
+                videono += 1;
+                video0.open(path0, cv::VideoWriter::fourcc('M','J','P','G'), 10, Size(frame_width,frame_height));
+                
+                char path1[100];
+                sprintf(path1, "%d.avi", videono);
+                videono += 1;
+                video1.open(path1, cv::VideoWriter::fourcc('M','J','P','G'), 10, Size(frame_width,frame_height));
+                
+                char path2[100];
+                sprintf(path2, "%d.avi", videono);
+                videono += 1;
+                video2.open(path2, cv::VideoWriter::fourcc('M','J','P','G'), 10, Size(frame_width,frame_height));
+                
+                recording = true;
+            }
+            
+            if( recording )
+            {
+                video0.write(frame0);
+                video1.write(frame1);
+                video2.write(frame2);
+            }
 
             // See if we can get a cloud
             if (cloud_mutex_.try_lock ())
