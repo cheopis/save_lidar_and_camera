@@ -64,7 +64,8 @@ int main(){
         char c = (char)waitKey(1);
         if( c == 27 )  // Press  ESC on keyboard to  exit
             break;
-        
+
+        // REMOVE THE IF BELLOW TO START SAVING THE DATA WHEN THE CODE STARTS
         if( c == 115 and !recording)    // Press  s on keyboard to start recording
         {
             char path0[100];
